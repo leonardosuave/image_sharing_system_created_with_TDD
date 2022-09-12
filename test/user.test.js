@@ -25,7 +25,19 @@ describe('users register', () => {
     })
 
     it('Shouldnt register users with empty datas', () => {
+
+        //Teste de contra espectativa.
+        let user = {name: '', email: '', password: ''};
+
+        return request.post('/user')
+        .send(user)
+        .then(res => {
+
+            expect(res.statusCode).toEqual(400); // Bad request - dados inválidos
         
+        }).catch(err => {
+            fail(err)
+        })
     })
 
 })
