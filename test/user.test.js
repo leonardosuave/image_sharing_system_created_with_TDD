@@ -40,4 +40,34 @@ describe('users register', () => {
         })
     })
 
+    it('Shouldnt register users with same e-mail', () => {
+
+        let time = Date.now()
+        let email = `${time}@gmail.com`
+
+        let user = {name: 'Leonardo', email, password: '123456'};
+
+        return request.post('/user')
+        .send(user)
+        .then(res => {
+
+            //Necessário cadastrar na primeira vez com sucesso
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.email).toEqual(email)
+
+
+                return request.post('/user')
+                .send(user)
+                .then(res => {
+                    expect(res.statusCode).toEqual(400)
+                    expect(res.body.error).toEqual('E-mail ja cadastrado')
+                }).catch(err => {
+                    fail(err)
+                })
+        
+        }).catch(err => {
+            fail(err)
+        })
+    })
+
 })
