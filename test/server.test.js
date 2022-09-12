@@ -1,5 +1,5 @@
 const supertest = require('supertest')
-const app = require('../src/app')
+const app = require('../src/app') //Importa a instância do app
 const request = supertest(app)
 
 it('should answer in the door 3131', () => {
