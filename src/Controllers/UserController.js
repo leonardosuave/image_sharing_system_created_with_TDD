@@ -21,4 +21,11 @@ exports.register = async (req, res) => {
         console.log(err)
         res.sendStatus(500)
     }
+
+    exports.deleteUser = async (req, res) => {
+        const result = await UserModel.deleteByEmail(req.params.email)
+        if(result) {
+            return res.sendStatus(200)
+        } 
+    }
 }

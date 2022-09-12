@@ -2,6 +2,20 @@ const supertest = require('supertest')
 const app = require('../src/app')   //Importa a instância do app
 const request = supertest(app)
 
+let mainUser = {name: 'Leonardo Suave', email: 'leonardo.suave15@hotmail.com', password: 'palmeiras'}
+
+beforeAll(() => {
+    //Inserir usuário Leonardo no banco
+    return request.post('/user')
+    .send(mainUser)
+    .then(res => {})
+    .catch(err => {console.log(err)})
+})
+
+afterAll(() => {
+
+})
+
 describe('users register', () => {
     it('Should success register an user',() => {
 
