@@ -1,0 +1,28 @@
+{
+  "name": "image_sharing_system_created_with_tdd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardosuave/image_sharing_system_created_with_TDD.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonardosuave/image_sharing_system_created_with_TDD/issues"
+  },
+  "homepage": "https://github.com/leonardosuave/image_sharing_system_created_with_TDD#readme",
+  "dependencies": {
+    "@types/jest": "^29.0.1",
+    "express": "^4.18.1",
+    "jest": "^29.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.0",
+    "supertest": "^6.2.4"
+  }
+}
