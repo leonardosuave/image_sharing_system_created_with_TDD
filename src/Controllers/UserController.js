@@ -1,4 +1,6 @@
 const UserModel = require('../Models/UserModel')
+const jwt = require('jsonwebtoken')
+const JWTSecret = 'suuwnjkasidiqpwsccxvwgtoodhwuyasdny'
 
 exports.register = async (req, res) => {
     try {
@@ -21,11 +23,22 @@ exports.register = async (req, res) => {
         console.log(err)
         res.sendStatus(500)
     }
+}
 
-    exports.deleteUser = async (req, res) => {
-        const result = await UserModel.deleteByEmail(req.params.email)
-        if(result) {
-            return res.sendStatus(200)
-        } 
-    }
+exports.deleteUser = async (req, res) => {
+    await UserModel.deleteByEmail(req.params.email)
+    res.sendStatus(200) 
+}
+
+exports.auth = async (req, res) => {
+
+    const {email, password} = req.body
+    jwt.sign({email}, JWTSecret, {expiresIn: '48h'}, (err, token) => {
+        if(err) {
+            console.log(err)
+            res.sendStatus(500)
+        } else {
+            res.json({token: token})
+        }
+    })
 }

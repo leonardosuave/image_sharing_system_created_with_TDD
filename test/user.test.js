@@ -13,7 +13,9 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-
+    return request.delete(`/user/${mainUser.email}`)
+    .then(res => {})
+    .catch(err => {console.log(err)})
 })
 
 describe('users register', () => {
@@ -84,4 +86,20 @@ describe('users register', () => {
         })
     })
 
+})
+
+describe('Authentication', () => {
+
+    //Create token JWT
+    it('Should return a token when success login', () => {
+        return request.post('/auth')
+        .send({email: mainUser.email, password: mainUser.password})
+        .then(res => {
+            expect(res.statusCode).toEqual(200);
+            expect(res.body.token).toBeDefined();
+        }).catch(err => {
+            console.log(err)
+            fail(err)
+        })
+    })
 })
