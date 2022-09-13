@@ -90,13 +90,39 @@ describe('users register', () => {
 
 describe('Authentication', () => {
 
-    //Create token JWT
-    it('Should return a token when success login', () => {
+    it('Should return a token jwt when do success login', () => {
+
         return request.post('/auth')
         .send({email: mainUser.email, password: mainUser.password})
         .then(res => {
             expect(res.statusCode).toEqual(200);
             expect(res.body.token).toBeDefined();
+        }).catch(err => {
+            console.log(err)
+            fail(err)
+        })
+    })
+
+    it('Should prevent unregistered users do success login', () => {
+
+        return request.post('/auth')
+        .send({email: 'emailqualquer@email.com', password: 'senha qualquer'})
+        .then(res => {
+            expect(res.statusCode).toEqual(403);
+            expect(res.body.errors.email).toEqual('E-mail não cadastrado');
+        }).catch(err => {
+            console.log(err)
+            fail(err)
+        })
+    })
+
+    it('Should prevent user do login with incorrect password', () => {
+
+        return request.post('/auth')
+        .send({email: mainUser.email, password: 'senha qualquer'})
+        .then(res => {
+            expect(res.statusCode).toEqual(403);
+            expect(res.body.errors.password).toEqual('Senha incorreto');
         }).catch(err => {
             console.log(err)
             fail(err)

@@ -26,7 +26,7 @@ class User {
     }
 
     async findByEmail(email) {
-        return UserModel.findOne({email: email})
+        return await UserModel.findOne({email: email})
     }
 
     async deleteByEmail(email) {

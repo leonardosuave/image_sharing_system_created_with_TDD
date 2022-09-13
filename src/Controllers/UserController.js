@@ -1,4 +1,5 @@
 const UserModel = require('../Models/UserModel')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const JWTSecret = 'suuwnjkasidiqpwsccxvwgtoodhwuyasdny'
 
@@ -33,7 +34,22 @@ exports.deleteUser = async (req, res) => {
 exports.auth = async (req, res) => {
 
     const {email, password} = req.body
-    jwt.sign({email}, JWTSecret, {expiresIn: '48h'}, (err, token) => {
+    const result = await UserModel.findByEmail(email)
+
+    if(result == undefined) {
+        res.statusCode = 403
+        res.json({errors: {email: 'E-mail não cadastrado'}})
+        return
+    }
+
+    const isPasswordRight = await bcrypt.compare(password,result.password)
+    if(!isPasswordRight) {
+        res.statusCode = 403
+        res.json({errors: {password: 'Senha incorreto'}})
+        return
+    }
+    
+    jwt.sign({email, name: result.name, id: result._id}, JWTSecret, {expiresIn: '48h'}, (err, token) => {
         if(err) {
             console.log(err)
             res.sendStatus(500)
